@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 public class DatasourceUtils {
 
 	public static final String hostName = "<HOST_NAME>";
-	public static final String username = "<USERNAME>";
+	public static final String username = "<USER_NAME>";
 	public static final String password = "<PASSWORD>";
 	public static final String datasourceName = "<DATASOURCE_NAME>";
 
