@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 
 public class DatasourceUtils {
 
-	public static final String hostName = "testdatabase.cnywwrxz3rfd.us-east-1.rds.amazonaws.com";
-	public static final String username = "TestUsername";
-	public static final String password = "TestPassword";
-	public static final String datasourceName = "ProductsPocDB";
+	public static final String hostName = "<HOST_NAME>";
+	public static final String username = "<USERNAME>";
+	public static final String password = "<PASSWORD>";
+	public static final String datasourceName = "<DATASOURCE_NAME>";
 
 	public static Connection getConnnection() throws Exception {
 		String dbURL = "jdbc:mysql://" + hostName + "/" + datasourceName + "?user=" + username + "&password=" + password;
