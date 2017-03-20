@@ -4,6 +4,7 @@ public class Product {
 	private int id;
 	private String title;
 	private String description;
+	private String imageSource;
 
 	public Product() {
 	}
@@ -32,12 +33,21 @@ public class Product {
 		this.description = description;
 	}
 
+	public String getImageSource() {
+		return imageSource;
+	}
+
+	public void setImageSource(String imageSource) {
+		this.imageSource = imageSource;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + id;
+		result = prime * result + ((imageSource == null) ? 0 : imageSource.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -58,6 +68,11 @@ public class Product {
 			return false;
 		if (id != other.id)
 			return false;
+		if (imageSource == null) {
+			if (other.imageSource != null)
+				return false;
+		} else if (!imageSource.equals(other.imageSource))
+			return false;
 		if (title == null) {
 			if (other.title != null)
 				return false;
@@ -68,7 +83,7 @@ public class Product {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", title=" + title + ", description=" + description + "]";
+		return "Product [id=" + id + ", title=" + title + ", description=" + description + ", imageSource=" + imageSource + "]";
 	}
 
 }

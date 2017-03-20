@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
@@ -37,7 +38,9 @@ public class GetProducts implements RequestStreamHandler {
 		}
 		
 		try {
-			Response responseObj = new Response(Utilities.asJson(products, List.class), new HashMap<String, String>(), HttpStatus.SC_OK);
+			Map<String, String> responseHeaders = new HashMap<String, String>();
+			responseHeaders.put("Access-Control-Allow-Origin", "*");
+			Response responseObj = new Response(Utilities.asJson(products, List.class), responseHeaders, HttpStatus.SC_OK);
             IOUtils.write(Utilities.asJson(responseObj, Response.class), output);
         } catch (final IOException e) {
         	e.printStackTrace();
@@ -58,6 +61,7 @@ public class GetProducts implements RequestStreamHandler {
 			product.setId(rs.getInt("ID"));
 			product.setTitle(rs.getString("TITLE"));
 			product.setDescription(rs.getString("DESCRIPTION"));
+			product.setImageSource(rs.getString("IMAGE_SRC"));
 			
 			products.add(product);
 		}

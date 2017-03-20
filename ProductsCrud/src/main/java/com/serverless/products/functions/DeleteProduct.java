@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpStatus;
@@ -47,7 +48,9 @@ public class DeleteProduct implements RequestStreamHandler {
 		}
 		
 		try {
-			Response responseObj = new Response(message, new HashMap<String, String>(), HttpStatus.SC_OK);
+			Map<String, String> responseHeaders = new HashMap<String, String>();
+			responseHeaders.put("Access-Control-Allow-Origin", "*");
+			Response responseObj = new Response(message, responseHeaders, HttpStatus.SC_OK);
             IOUtils.write(Utilities.asJson(responseObj, Response.class), output);
         } catch (final IOException e) {
         	e.printStackTrace();
