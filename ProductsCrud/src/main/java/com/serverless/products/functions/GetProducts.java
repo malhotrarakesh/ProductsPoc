@@ -16,10 +16,9 @@ import org.apache.http.HttpStatus;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
-import com.serverless.products.Utilities.Utilities;
-import com.serverless.products.datasource.DatasourceUtils;
 import com.serverless.products.model.Product;
 import com.serverless.products.model.Response;
+import com.serverless.products.utils.Utilities;
 
 public class GetProducts implements RequestStreamHandler {
 
@@ -29,12 +28,12 @@ public class GetProducts implements RequestStreamHandler {
 		ResultSet resultSet = null;
 		List<Product> products = new ArrayList<Product>();
 		try {
-			connection = DatasourceUtils.getConnnection();
+			connection = Utilities.getConnnection();
 			products = getProducts(connection);
 		} catch (Exception e) {
 				e.printStackTrace();
 		} finally {
-			DatasourceUtils.closeResources(connection, resultSet);
+			Utilities.closeResources(connection, resultSet);
 		}
 		
 		try {

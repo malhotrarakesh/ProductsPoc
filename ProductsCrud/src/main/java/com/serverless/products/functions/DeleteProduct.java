@@ -13,16 +13,18 @@ import org.apache.http.HttpStatus;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.serverless.products.Utilities.Utilities;
-import com.serverless.products.datasource.DatasourceUtils;
 import com.serverless.products.model.Product;
 import com.serverless.products.model.Response;
+import com.serverless.products.utils.Utilities;
 
 public class DeleteProduct implements RequestStreamHandler {
 
+	private static final String BUCKET_NAME = "product-image-bucket";
+	
 	@Override
 	public void handleRequest(InputStream input, OutputStream output, Context context) throws IOException {
 		String message = "Something wrong happened, please try again!!!";
@@ -37,14 +39,17 @@ public class DeleteProduct implements RequestStreamHandler {
 					
 			Product product = Utilities.getGson().fromJson(e, Product.class);
 			
-			connection = DatasourceUtils.getConnnection();
+			connection = Utilities.getConnnection();
 			deleteProduct(connection, product);
+			
+			AmazonS3Client client = Utilities.getS3Client();
+			client.deleteObject(BUCKET_NAME, product.getTitle() + ".jpg");
 			
 			message = "Product deleted successfully!!!";
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DatasourceUtils.closeResources(connection, null);
+			Utilities.closeResources(connection, null);
 		}
 		
 		try {

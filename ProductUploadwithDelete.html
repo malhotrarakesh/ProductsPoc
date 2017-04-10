@@ -1,0 +1,118 @@
+<html>
+   <head>
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+	
+      <script src="https://code.jquery.com/jquery-1.5.2.js"></script>
+
+	 <script>
+        $( document ).ready(function() {
+          CreateProductTable();
+        });
+    </script>
+
+	<script type="text/javascript">
+
+		function DeleteProductTable(productId, productTitle) {
+			
+	
+		var productInfo = JSON.stringify({
+    			id: productId,
+				title: productTitle
+		});
+
+		$.ajax({
+                    type: "DELETE",
+                    url: "https://hebqbqw9od.execute-api.us-east-1.amazonaws.com/dev/products/deleteProduct",
+                    dataType: "json",
+	            data: productInfo,
+                    success: function (msg) {
+                          alert("Product Removed form AWS!");
+			  window.location.reload();
+                          },
+	            error: function (xhr, ajaxOptions, thrownError) {
+                          alert(xhr.responseText);
+			  window.location.reload();
+   	                 }
+                  });
+		}		
+
+		function CreateProductTable() {
+       
+	$.getJSON("https://hebqbqw9od.execute-api.us-east-1.amazonaws.com/dev/products/getProducts", function(data) {
+  		console.log(JSON.stringify(data));
+		var response = $.parseJSON(JSON.stringify(data));
+ 	var trHTML = '';
+        $.each(response, function (i, item) {
+            trHTML += '<tr><td>' + item.id + '</td><td>' + item.title + '</td><td>' + item.description + '</td><td><img src="'+item.imageSource+'"/></td><td align="center"><button onclick="DeleteProductTable(' + item.id + ',\'' + item.title + '\');">Delete</button></td></tr>';
+        });
+        $('#productTBL').append(trHTML);
+
+	    })
+	.done(function() {
+			 console.log('getJSON request succeeded!'); 
+		})
+	.fail(function(jqXHR, textStatus, errorThrown) { console.log('getJSON request failed! ' + textStatus); });
+    }
+
+       	   function addPhoto() {
+	       var imageSource = "";
+	       var files = document.getElementById('photoupload').files;
+ 	       var reader = new FileReader();
+	       reader.readAsDataURL(files[0]);
+	       reader.onload = function () {
+		imageSource = reader.result;
+		
+		var productInfo = JSON.stringify({
+    			title: $("#productName").val(),
+    			description: $("#productDesc").val(),
+			imageSource:imageSource
+		});
+
+		 $.ajax({
+                    type: "POST",
+                    url: "https://hebqbqw9od.execute-api.us-east-1.amazonaws.com/dev/products/addProduct",
+                    dataType: "json",
+	            data: productInfo,
+                    success: function (msg) {
+                          alert("Product Added");
+			   //window.location.reload();
+                          },
+	            error: function (xhr, ajaxOptions, thrownError) {
+                          alert(xhr.responseText);
+ 			//window.location.reload();
+
+   	                 }
+                  });		
+
+   		};
+   		reader.onerror = function (error) {
+    		 console.log('Error: ', error);
+   		};
+		
+               //alert("Product Uploaded Successfully");
+		}			
+        </script>
+    </head>
+      <body>
+	<H2>Product Information</H2><BR/>
+	Product Title: <input id="productName" type="text" /><BR/><BR/>
+	Product Description: <input id="productDesc" type="text" /><BR/><BR/>
+	<input id="photoupload" type="file" accept="image/*"><BR/><BR/>
+	<button id="addphoto" onclick="addPhoto();">Add Product</button><BR/><BR/>
+	<div id="dvTable">
+	   <table id="productTBL">
+		<tr>
+   		 <th>Product Id</th>
+    		 <th>Product Name</th> 
+     		 <th>Product description</th>
+		 <th>Image Source</th>
+		 <th>Delete Product</th>
+  		</tr>
+	</div>
+    </body>
+
+</html>

@@ -16,10 +16,9 @@ import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.serverless.products.Utilities.Utilities;
-import com.serverless.products.datasource.DatasourceUtils;
 import com.serverless.products.model.Product;
 import com.serverless.products.model.Response;
+import com.serverless.products.utils.Utilities;
 
 public class UpdateProduct implements RequestStreamHandler {
 	
@@ -37,14 +36,14 @@ public class UpdateProduct implements RequestStreamHandler {
 					
 			Product product = Utilities.getGson().fromJson(e, Product.class);
 			
-			connection = DatasourceUtils.getConnnection();
+			connection = Utilities.getConnnection();
 			updateProduct(connection, product);
 			
 			message = "Product updated successfully!!!";
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			DatasourceUtils.closeResources(connection, null);
+			Utilities.closeResources(connection, null);
 		}
 		
 		try {
