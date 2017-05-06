@@ -26,7 +26,7 @@ table, th, td {
 
 		$.ajax({
                     type: "DELETE",
-                    url: "https://hebqbqw9od.execute-api.us-east-1.amazonaws.com/dev/products/deleteProduct",
+                    url: "https://11urw0xca1.execute-api.us-east-1.amazonaws.com/dev/products/deleteProduct",
                     dataType: "json",
 	            data: productInfo,
                     success: function (msg) {
@@ -42,7 +42,7 @@ table, th, td {
 
 		function CreateProductTable() {
        
-	$.getJSON("https://hebqbqw9od.execute-api.us-east-1.amazonaws.com/dev/products/getProducts", function(data) {
+	$.getJSON("https://11urw0xca1.execute-api.us-east-1.amazonaws.com/dev/products/getProducts", function(data) {
   		console.log(JSON.stringify(data));
 		var response = $.parseJSON(JSON.stringify(data));
  	var trHTML = '';
@@ -74,7 +74,7 @@ table, th, td {
 
 		 $.ajax({
                     type: "POST",
-                    url: "https://hebqbqw9od.execute-api.us-east-1.amazonaws.com/dev/products/addProduct",
+                    url: "https://11urw0xca1.execute-api.us-east-1.amazonaws.com/dev/products/addProduct",
                     dataType: "json",
 	            data: productInfo,
                     success: function (msg) {
